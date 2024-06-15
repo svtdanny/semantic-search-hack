@@ -26,6 +26,7 @@ RUN conda env create -f environment.yml
 COPY backend /opt/app/backend
 COPY embed /opt/app/embed
 
+# for opencv
 RUN apt-get -y update \
 && apt-get -y upgrade \
 apt-get install -y ffmpeg
