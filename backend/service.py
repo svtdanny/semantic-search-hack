@@ -4,9 +4,11 @@ from typing import List
 
 import numpy as np
 
-from embed.controller import KnnIndex
+from embed.embedder import IndexEmbeddingModel
+from embed.index import KnnIndex
 
 index = KnnIndex()
+embedder = IndexEmbeddingModel()
 app = FastAPI()
 
 
@@ -18,11 +20,11 @@ class SearchRequest(BaseModel):
 
 @app.put("/search")
 async def put_new_key(item: SearchItem):
-    print(f"Put {item.links}")
     for link in item.links:
-        index.add_to_storage(link, np.zeros((1024,))) # stup vector
+        index.add_to_storage(link, embedder.get_video_embedding(link))
 
 @app.post("/search")
 async def get_search_results(request: SearchRequest):
-    res = index.search(request.query)
+    query_embedding = embedder.get_query_embedding(request.query)
+    res = index.search(query_embedding)
     return res
