@@ -14,7 +14,7 @@ if you use ssh port-forwarding on remote vm, you need to use `--net=host` with d
 `docker build -t hack-backend .` \
 `docker tag hack-backend sivtsovdt/hkt-base:all-v0`
 
-It will take a long time...
+It will take a long time... \
 `docker run -it --net=host -p 8000:8000 sivtsovdt/hkt-base:all-v0`
 
 # Download embeddings
