@@ -40,6 +40,4 @@ async def get_search_results(request: SearchRequest):
     res = index.search(query_embedding[0])
     print("Query search time: ", time.time() - start)
 
-    query_embedding = embedder.get_query_embedding(query)
-    res = index.search(query_embedding)
     return res
