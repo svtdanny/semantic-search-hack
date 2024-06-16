@@ -2,6 +2,10 @@
 
 __Team:__ ML бригада
 
+### YouTube Overview
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/3V3iHjHVNOI/maxresdefault.jpg)](https://www.youtube.com/watch?v=3V3iHjHVNOI)
+
 ### Docker 
 if you use ssh port-forwarding on remote vm, you need to use `--net=host` with docker run
 
@@ -29,3 +33,12 @@ if you use ssh port-forwarding on remote vm, you need to use `--net=host` with d
 Add path to root and to every directory you are going to use
 
 `PYTHONPATH=$PYTHONPATH:~/semantic-search-hack:~/semantic-search-hack/embed fastapi dev backend/service.py`
+
+### frontend
+
+You can use same environment for launch frontend, launch example
+
+```bash
+cd frontend
+ python3 -m streamlit run main.py --server.port 6884 -- --address 127.0.0.1:8000
+```
