@@ -23,15 +23,16 @@ COPY environment.yml /opt/app/
 RUN conda env create -f environment.yml
 
 # backend installation
-COPY backend /opt/app/backend
-COPY embed /opt/app/embed
 
 # for opencv
 RUN apt -y update \
 && apt install -y ffmpeg
 
+COPY embed /opt/app/embed
+COPY backend /opt/app/backend
+
 EXPOSE 8000
 
 CMD export PYTHONPATH=$PYTHONPATH:/opt/app:/opt/app/embed && conda run --no-capture-output -n hack-back \
-fastapi dev backend/service.py
+fastapi dev --no-reload backend/service.py
 # fastapi run backend/service.py

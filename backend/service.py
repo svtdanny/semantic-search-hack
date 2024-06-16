@@ -3,11 +3,12 @@ from pydantic import BaseModel
 from typing import List
 
 import numpy as np
+import time
 
 from embed.embedder import IndexEmbeddingModel
-from embed.index import KnnIndex
+from embed.index_builder import build_index
 
-index = KnnIndex()
+index = build_index()
 embedder = IndexEmbeddingModel()
 app = FastAPI()
 
@@ -25,6 +26,11 @@ async def put_new_key(item: SearchItem):
 
 @app.post("/query")
 async def get_search_results(request: SearchRequest):
+    start = time.time()
     query_embedding = embedder.get_query_embedding(request.query)
-    res = index.search(query_embedding)
+    print("Query embed time: ", time.time() - start)
+
+    start = time.time()
+    res = index.search(query_embedding[0])
+    print("Query search time: ", time.time() - start)
     return res
