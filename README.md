@@ -14,6 +14,7 @@ if you use ssh port-forwarding on remote vm, you need to use `--net=host` with d
 `docker build -t hack-backend .` \
 `docker tag hack-backend sivtsovdt/hkt-base:all-v0`
 
+It will take a long time...
 `docker run -it --net=host -p 8000:8000 sivtsovdt/hkt-base:all-v0`
 
 # Download embeddings
@@ -26,7 +27,7 @@ if you use ssh port-forwarding on remote vm, you need to use `--net=host` with d
 `git clone https://huggingface.co/AskYoutube/AskVideos-VideoCLIP-v0.2` \
 `cd embed` \
 `mkdir models` \
-`cp ../AskVideos-VideoCLIP-v0.2/askvideos_clip_v0.2.pth ./models` \
+`cp ../AskVideos-VideoCLIP-v0.2/askvideos_clip_v0.2.pth ./models`
 
 ### Run from source
 
