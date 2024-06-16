@@ -1,9 +1,8 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+import time
 from typing import List
 
-import numpy as np
-import time
+from fastapi import FastAPI
+from pydantic import BaseModel
 
 from embed.embedder import IndexEmbeddingModel
 from embed.index_builder import build_index
@@ -18,13 +17,16 @@ translator = Translator()
 class SearchItem(BaseModel):
     links: List[str]
 
+
 class SearchRequest(BaseModel):
     query: str
+
 
 @app.put("/add")
 async def put_new_key(item: SearchItem):
     for link in item.links:
         index.add_to_storage(link, embedder.get_video_embedding(link))
+
 
 @app.post("/query")
 async def get_search_results(request: SearchRequest):

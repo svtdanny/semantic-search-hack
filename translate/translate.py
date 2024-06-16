@@ -1,8 +1,9 @@
 # Load model directly
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import enum
-from deep_translator import GoogleTranslator
 from abc import ABC, abstractmethod
+
+from deep_translator import GoogleTranslator
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 
 class TranslatorType(enum.Enum):
@@ -18,11 +19,10 @@ class BaseTranslator(ABC):
 
 class GoogleTranslatorCls(BaseTranslator):
     def __init__(self):
-        self.translator = GoogleTranslator(source='ru', target='en')
+        self.translator = GoogleTranslator(source="ru", target="en")
 
     def translate(self, query: str) -> str:
         return self.translator.translate(text=query)
-
 
 
 class Helsinki_NLP_otus(BaseTranslator):
@@ -41,11 +41,11 @@ class Helsinki_NLP_otus(BaseTranslator):
 class Translator(BaseTranslator):
     def __init__(self, translator_type=TranslatorType.google):
         self.translator_type = translator_type
-        
+
         if translator_type == TranslatorType.google:
             self.translator = GoogleTranslatorCls()
         elif translator_type == TranslatorType.helsinki_nlp_ops:
             pass
-    
+
     def translate(self, query: str) -> str:
         return self.translator.translate(query)
