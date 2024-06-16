@@ -1,7 +1,8 @@
 import pickle
-from sklearn.neighbors import NearestNeighbors
 
 from settings import settings
+from sklearn.neighbors import NearestNeighbors
+
 
 class KnnIndex:
     def __init__(self):
@@ -24,5 +25,9 @@ class KnnIndex:
         self.embeddings.append(vector)
 
     def search(self, query_embedding, n_items=10):
-        indxs = self.neigh.kneighbors(query_embedding, n_items, return_distance=False).ravel().tolist()
+        indxs = (
+            self.neigh.kneighbors(query_embedding, n_items, return_distance=False)
+            .ravel()
+            .tolist()
+        )
         return [self.urls[indx] for indx in indxs]

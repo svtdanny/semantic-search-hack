@@ -1,11 +1,11 @@
-from tqdm import tqdm
 import pickle
-from settings import settings
 from itertools import islice
 
 from qdrant_client import QdrantClient
-from qdrant_client.models import Distance, VectorParams
-from qdrant_client.models import PointStruct
+from qdrant_client.models import Distance, PointStruct, VectorParams
+from settings import settings
+from tqdm import tqdm
+
 
 def batched(iterable, n):
     "Batch data into lists of length n. The last batch may be shorter."
@@ -17,8 +17,11 @@ def batched(iterable, n):
             return
         yield batch
 
+
 class QDrantIndex:
-    def __init__(self, embeddding_dim=1024, location=":memory:", collection_name = "search_index"):
+    def __init__(
+        self, embeddding_dim=1024, location=":memory:", collection_name="search_index"
+    ):
         self.upload_chunk_preload = 10000
 
         self.embeddding_dim = embeddding_dim
@@ -32,18 +35,32 @@ class QDrantIndex:
         self.preload_storage()
 
     def init_client(self):
-        self.client  = QdrantClient(self.location)
+        self.client = QdrantClient(self.location)
         self.client.create_collection(
             collection_name=self.collection_name,
-            vectors_config=VectorParams(size=self.embeddding_dim, distance=Distance.DOT),
+            vectors_config=VectorParams(
+                size=self.embeddding_dim, distance=Distance.DOT
+            ),
         )
 
-        self.inserted = 0 # in production use uuid4 for id (no collision statistically) or store in persistent storage
+        self.inserted = 0  # in production use uuid4 for id (no collision statistically) or store in persistent storage
 
     def preload_storage(self):
-        total=int( (len(self.joined_result)+self.upload_chunk_preload-1)/self.upload_chunk_preload )
-        for batch in tqdm(batched(self.joined_result, self.upload_chunk_preload), total=total):
-            points = [PointStruct(id=self.inserted+i, vector=self.joined_result[batch[i]], payload={"link": batch[i]}) for i in range(len(batch))]
+        total = int(
+            (len(self.joined_result) + self.upload_chunk_preload - 1)
+            / self.upload_chunk_preload
+        )
+        for batch in tqdm(
+            batched(self.joined_result, self.upload_chunk_preload), total=total
+        ):
+            points = [
+                PointStruct(
+                    id=self.inserted + i,
+                    vector=self.joined_result[batch[i]],
+                    payload={"link": batch[i]},
+                )
+                for i in range(len(batch))
+            ]
             operation_info = self.client.upsert(
                 collection_name=self.collection_name,
                 wait=True,
