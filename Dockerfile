@@ -22,14 +22,15 @@ WORKDIR /opt/app
 COPY environment.yml /opt/app/
 RUN conda env create -f environment.yml
 
-# backend installation
 
 # for opencv
 RUN apt -y update \
 && apt install -y ffmpeg
 
-COPY embed /opt/app/embed
+# backend installation
 COPY backend /opt/app/backend
+COPY embed /opt/app/embed
+COPY translate /opt/app/translate
 
 EXPOSE 8000
 

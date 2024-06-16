@@ -7,10 +7,12 @@ import time
 
 from embed.embedder import IndexEmbeddingModel
 from embed.index_builder import build_index
+from translate.translate import Translator
 
 index = build_index()
 embedder = IndexEmbeddingModel()
 app = FastAPI()
+translator = Translator()
 
 
 class SearchItem(BaseModel):
@@ -27,10 +29,17 @@ async def put_new_key(item: SearchItem):
 @app.post("/query")
 async def get_search_results(request: SearchRequest):
     start = time.time()
-    query_embedding = embedder.get_query_embedding(request.query)
+    query = translator.translate(request.query)
+    print("Translate time: ", time.time() - start)
+
+    start = time.time()
+    query_embedding = embedder.get_query_embedding(query)
     print("Query embed time: ", time.time() - start)
 
     start = time.time()
     res = index.search(query_embedding[0])
     print("Query search time: ", time.time() - start)
+
+    query_embedding = embedder.get_query_embedding(query)
+    res = index.search(query_embedding)
     return res
