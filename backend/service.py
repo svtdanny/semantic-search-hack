@@ -18,12 +18,12 @@ class SearchItem(BaseModel):
 class SearchRequest(BaseModel):
     query: str
 
-@app.put("/search")
+@app.put("/add")
 async def put_new_key(item: SearchItem):
     for link in item.links:
         index.add_to_storage(link, embedder.get_video_embedding(link))
 
-@app.post("/search")
+@app.post("/query")
 async def get_search_results(request: SearchRequest):
     query_embedding = embedder.get_query_embedding(request.query)
     res = index.search(query_embedding)
