@@ -27,11 +27,11 @@ COPY backend /opt/app/backend
 COPY embed /opt/app/embed
 
 # for opencv
-RUN apt-get -y update \
-&& apt-get -y upgrade \
-apt-get install -y ffmpeg
+RUN apt -y update \
+&& apt install -y ffmpeg
 
-CMD conda init bash && conda activate hack-back \
-&& PYTHONPATH=$PYTHONPATH:/opt/app:/opt/app/embed \
+EXPOSE 8000
+
+CMD export PYTHONPATH=$PYTHONPATH:/opt/app:/opt/app/embed && conda run --no-capture-output -n hack-back \
 fastapi dev backend/service.py
 # fastapi run backend/service.py
