@@ -8,6 +8,9 @@ def video2embedding(video: io.BytesIO, model, vls_processor, device, reduction="
     embedding = video_clip.get_all_video_embeddings([video], model, vls_processor, device)
     if reduction == "mean":
         embedding = embedding[0].mean(dim=1).ravel()
+    else:
+        raise NotImplementedError()
+
     return embedding
 
 class IndexEmbeddingModel:
