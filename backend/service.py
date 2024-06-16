@@ -33,6 +33,7 @@ async def get_search_results(request: SearchRequest):
     start = time.time()
     query = translator.translate(request.query)
     print("Translate time: ", time.time() - start)
+    print(f"Translation '{request.query}' -> '{query}'")
 
     start = time.time()
     query_embedding = embedder.get_query_embedding(query)
