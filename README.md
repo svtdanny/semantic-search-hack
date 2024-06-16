@@ -4,7 +4,7 @@ Docker
 if you use ssh port-forwarding on remote vm, you need to use --net=host with docker run
 
 docker pull sivtsovdt/hkt-base:all-v0
-# or
+// or
 docker build -t hack-backend .
 docker tag hack-backend sivtsovdt/hkt-base:all-v0
 
