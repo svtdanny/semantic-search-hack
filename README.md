@@ -45,3 +45,13 @@ You can use same environment for launch frontend, launch example
 cd frontend
  python3 -m streamlit run main.py --server.port 6884 -- --address 127.0.0.1:8000
 ```
+
+### request to prototype
+
+curl -X 'POST' \
+  'http://130.193.42.244:8000/query' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "query": "cars"
+}'
