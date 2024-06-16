@@ -9,13 +9,15 @@ __Team:__ ML бригада
 ### Docker 
 if you use ssh port-forwarding on remote vm, you need to use `--net=host` with docker run
 
+Before building yourself, download precomputed embeddings and model (see below)
+
 `docker pull sivtsovdt/hkt-base:all-v0` \
 // or \
 `docker build -t hack-backend .` \
 `docker tag hack-backend sivtsovdt/hkt-base:all-v0`
 
-It will take a long time... \
-`docker run -it --net=host -p 8000:8000 sivtsovdt/hkt-base:all-v0`
+It will take a long time... just run prebuild\
+`docker run -it --net=host -p 8000:8000 sivtsovdt/hkt-base:all-v3.0`
 
 # Download embeddings
 
